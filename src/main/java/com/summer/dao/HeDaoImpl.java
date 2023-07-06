@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.summer.dto.Dayoff;
+import com.summer.dto.GroupUserInfo;
 import com.summer.dto.GroupWorkingHour;
 import com.summer.dto.Workflow;
 import com.summer.dto.WorkflowCategory;
@@ -36,11 +37,6 @@ public class HeDaoImpl implements HeDao {
 		return dao.monthlyWorkingHour(para);
 	}
 
-	/*
-	 * @Override public WorkingHour selectDate(WorkingHour wh) { return
-	 * dao.selectDate(wh); }
-	 */
-
 	@Override
 	public int insertWorkFlow(Workflow wf) {
 		return dao.insertWorkFlow(wf);
@@ -67,15 +63,10 @@ public class HeDaoImpl implements HeDao {
 	}
 
 	@Override
-	public List<String> selectName(String para) {
+	public List<GroupUserInfo> selectName(String para) {
 		return dao.selectName(para);
 	}
-
-	/*
-	 * @Override public List<WorkingHour> groupWorkingHour(Map<String, String> para)
-	 * { return dao.groupWorkingHour(para); }
-	 */
-
+	
 	@Override
 	public List<Dayoff> groupUseDayOff(Map<String, String> para) {
 		return dao.groupUseDayOff(para);
@@ -105,11 +96,6 @@ public class HeDaoImpl implements HeDao {
 	public WorkflowCategory workflowcategoryView(int para) {
 		return dao.workflowcategoryView(para);
 	}
-
-	/*
-	 * @Override public WorkflowCategory workflowCategoryView(int para) { return
-	 * dao.workflowCategoryView(para); }
-	 */
 
 	@Override
 	public List<String> groupLeaderId() {
@@ -160,10 +146,5 @@ public class HeDaoImpl implements HeDao {
 	public int rejectworkflow(Workflow wf) {
 		return dao.rejectworkflow(wf);
 	}
-
-	/*
-	 * @Override public List<Integer> useDayOffDate(String para) { return
-	 * dao.useDayOffDate(para); }
-	 */
 
 }

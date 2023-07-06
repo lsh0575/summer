@@ -20,13 +20,13 @@
 <body>
 		<script>
 		//근태관리
-		location.href="work/workinghour"; 
+		//location.href="work/workinghour"; 
 		
 		//연차
 		//location.href="work/totaldayoff";
 		
 		//전자결재
-		//location.href="work/workflow";
+		location.href="work/workflow";
 		
 		//그룹원-전자결재확인
 		//location.href="work/groupWorkflow";

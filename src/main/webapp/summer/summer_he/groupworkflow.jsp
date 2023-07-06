@@ -3,10 +3,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
 
+<div class="mtotal">
 <strong class="leftspace">결재할 문서</strong>
 <div class="bottomline"></div>
 
-<table class="table">
+<table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th scope="col" class="tcenter">문서번호</th>
@@ -93,9 +94,10 @@
 							value="" readonly>
 					</div>
 
-					<input type="hidden" name="userid" id="userid" value="" /> <input
-						type="hidden" name="wfsrn" id="wfsrn" value="" /> <input
-						type="hidden" name="whsrn" id="whsrn" value="" />
+					<input type="hidden" name="wfcsrn" id="wfcsrn" value="" />
+					<input type="hidden" name="userid" id="userid" value="" />
+					<input type="hidden" name="wfsrn" id="wfsrn" value="" />
+					<input type="hidden" name="whsrn" id="whsrn" value="" />
 
 					<button type="submit" class="btn btn-success btn-block checkbtn1" id="accept">승인</button>
 					<button type="submit" class="btn btn-success btn-block checkbtn2" id="reject">반려</button>
@@ -110,7 +112,7 @@
 		</div>
 	</div>
 </div>
-
+</div>
 
 <script>
 	$(function() {
@@ -134,6 +136,7 @@
 					var wfapplystarttime = json.wfapplystarttime;
 					var wfapplyendtime = json.wfapplyendtime;
 					var wfsrn = json.wfsrn;
+					var wfcsrn = json.wfcsrn;
 					var userid = json.userid;
 								
 					$("#wfapplystartdate1").val(wfapplystartdate);
@@ -142,7 +145,7 @@
 					$("#wfapplyendtime1").val(wfapplyendtime);
 					$("#wfsrn").val(wfsrn);
 					$("#userid").val(userid);
-					
+					$("#wfcsrn").val(wfcsrn);
 				},
 				error : function() {
 					alert("관리자에게 문의 바랍니다.");

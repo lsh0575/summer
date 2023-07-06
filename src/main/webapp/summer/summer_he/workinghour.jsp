@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
+<div class="mtotal">
 <div>
 	<strong class="leftspace">근태 체크</strong>
 	<!-- userid가 그룹장 id면 보이기 -->
@@ -19,14 +20,15 @@
 			<div id="today"></div>
 		</div>
 
+<!-- 0:출퇴근x 1:출퇴근o 2:출근o퇴근x -->
 		<fieldset id="btn_fieldset">
 			<div class="col-sm-3">
 				<div class="topspace">출근</div>
 				<div id="gotime"></div>
-				<c:if test="${result!=1}">
+				<c:if test="${result==0}">
 				<button class="btn btn-primary btnspace" id="gotowork">출근하기</button>
 				</c:if>	
-				<c:if test="${result==1}">
+				<c:if test="${result!=0}">
 				<div class="textspace">${selectworkinghour.whgotime}</div>
 				</c:if>
 			</div>
@@ -44,7 +46,7 @@
 			<div class="col-sm-3">
 				<div class="topspace">근무시간</div>
 				<div id="workinghour"></div>
-				<c:if test="${result==1}">
+				<c:if test="${result!=0}">
 				<div id="workinghour1">${resulthour}<span>시간 </span>${resultmin}<span>분</span></div>
 			</c:if>
 			</div>
@@ -52,7 +54,7 @@
 	</div>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
 	<caption class="leftspace" id="currentmonth"></caption>
 	<thead>
 		<tr>
@@ -115,8 +117,8 @@
 					</div>
 
 					<input type="hidden" name="whsrn" id="whsrn" value="" /> <input
-						type="hidden" name="userid" id="userid" value="" /> <input
-						type="hidden" name="wfcsrn" id="userid" value="4" />
+						type="hidden" name="userid" id="userid" value="" />
+						<input type="hidden" name="wfcsrn" id="userid" value="4" />
 
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
@@ -130,7 +132,7 @@
 		</div>
 	</div>
 </div>
-
+</div>
 <script>
 
 	//현재 날짜, 시간 불러오기
@@ -273,8 +275,8 @@
 										alert("관리자에게 문의 바랍니다.");
 									}
 								});
-						// 퇴근시간-출근시간은 테이블에서 가져와서 하기
-						var gotimediff = $("#gotime").html();
+						 // 퇴근시간-출근시간은 테이블에서 가져와서 하기
+/* 						var gotimediff = $("#gotime").html();
 						var leavetimediff = $("#leavetime").html();
 
 						var gotimediffmin = gotimediff.substr(3, 2); //출근시간 분
@@ -291,7 +293,6 @@
 
 						var workinghourrecord = document
 								.querySelector("#workinghour");
-						leavetimerecord.innerHTML = leavetime;
 
 						if (leavetimediffmin - gotimediffmin < 0) {
 							workinghourrecord.innerHTML = (leavenum2 - gonum2 + 1)
@@ -299,7 +300,7 @@
 						} else {
 							workinghourrecord.innerHTML = (leavenum2 - gonum2)
 									+ "시간 " + (leavenum1 - gonum1) + "분";
-						}
+						} */
 
 						$("#leavetowork").unbind('click');
 					});

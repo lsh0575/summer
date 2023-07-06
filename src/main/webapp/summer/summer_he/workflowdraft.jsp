@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
 
+<div class="mtotal">
 <strong class="leftspace">기안함</strong>
 <div class="bottomline"></div>
 
@@ -94,6 +95,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <script>

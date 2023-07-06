@@ -2,9 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
+<div class="mtotal">
 <strong class="leftspace">${username}</strong>
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
 	<caption class="leftspace" id="currentmonth"></caption>
 	<thead>
 		<tr>
@@ -24,5 +25,15 @@
 		</tbody>
 	</c:forEach>
 </table>
+</div>
+<script>
+let date = new Date();
+var year = date.getFullYear();
+var month = ("0" + (1 + date.getMonth())).slice(-2);
+var selectmonth = year + "-" + month;
+var selectormonth = document.querySelector("#currentmonth");
+selectormonth.innerHTML = selectmonth;
+
+</script>
 
 <%@ include file="../../inc/footer.jsp"%>

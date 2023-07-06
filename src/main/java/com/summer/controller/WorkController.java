@@ -101,13 +101,18 @@ public class WorkController {
 		//그룹장인지 확인
 		model.addAttribute("groupleader", service.groupLeaderId());
 		//아이디는 세션에서 받아온 값
-		if(service.groupLeaderId().contains("dagmm")) {
+		if(service.groupLeaderId().contains("gaceo")) {
 			resultleader = 1;
 		}
 		
-		// 출퇴근이력 있으면 result 1로 넘기기
-		if(service.selectWorkingHour(wh).getWhdate() != null) {
-			result = 1;
+		// 출근버튼 누른 이력 있고, 출근시간=퇴근시간 > 퇴근버튼 안 누른것임. result 2로 넘기기
+		if (service.selectWorkingHour(wh).getWhdate() != null) {
+			if (service.selectWorkingHour(wh).getWhgotime().equals(service.selectWorkingHour(wh).getWhleavetime())) {
+				result = 2;
+			} else {
+				// 출근버튼 누른 이력 있고, 출근시간!=퇴근시간 > 퇴근버튼 누른것. result 1로 넘기기
+				result = 1;
+			}
 		}
 		model.addAttribute("result", result);
 		model.addAttribute("resultleader", resultleader);
@@ -149,20 +154,6 @@ public class WorkController {
 		service.whleavetimeUpdate(wh);
 	}
 
-	// ■수정
-	/*
-	 * @PostMapping(value = "/editwhInsertWorkFlow")
-	 * 
-	 * @ResponseBody public void editwhInsertWorkFlow(@RequestParam String
-	 * userid, @RequestParam int whsrn, HttpServletResponse response) throws
-	 * IOException { PrintWriter out = response.getWriter();
-	 * if(service.editwhInsertWorkFlow(userid, whsrn) > 0) { out.
-	 * println("<script>alert('기안이 완료되었습니다.'); location.href='work/workflowdraft'</script>"
-	 * ); } else { out.
-	 * println("<script>alert('관리자에게 문의바랍니다.'); javascript:history.go(-1);</script>"
-	 * ); } }
-	 */
-
 	@GetMapping(value = "/totaldayoff")
 	public String totaldayoff(String para, HttpSession session, Model model) {
 		para = "dagmm";
@@ -177,8 +168,15 @@ public class WorkController {
 
 	@GetMapping(value = "/workflow")
 	public String workflow(String para, Model model, HttpSession session) {
-		para = "dagmm";
+		para = "gaceo";
+		int result = 0;
+		
+		if(service.groupLeaderId().contains(para)) {
+		result = 1;
+		}
+
 		model.addAttribute("list", service.listWorkflow(para));
+		model.addAttribute("result", result);
 		return "workflow";
 	}
 
@@ -212,18 +210,10 @@ public class WorkController {
 		para.put("whdate", currentDate);
 		para.put("summer_user_userid", para2);
 		model.addAttribute("groupname", service.groupname(para2));
-		model.addAttribute("list", service.groupWorkingHour(para));
+		model.addAttribute("selectname", service.selectName(para2));
+		model.addAttribute("list", service.groupWorkingHour(para));	
 		return "workingcheck";
 	}
-
-	// 아작스 체크
-	/*
-	 * @GetMapping(value = "/groupWorkingHour2") public List<GroupWorkingHour>
-	 * groupWorkingHour2(@RequestParam String whdate, Model model, Map<String,
-	 * String> para) { para.put("whdate", whdate); //session에서 받아오기
-	 * para.put("summer_user_userid", "gaceo"); return
-	 * service.groupWorkingHour(para); }
-	 */
 
 	@GetMapping(value = "/workflowcategoryview")
 	@ResponseBody
@@ -264,7 +254,10 @@ public class WorkController {
 	public String groupWorkflow(Model model) {
 		// session에서 받아오기
 		String userid = "gaceo";
+		
+		
 		model.addAttribute("list", service.groupWorkflow(userid));
+
 		return "groupworkflow";
 	}
 
@@ -301,10 +294,10 @@ public class WorkController {
 			if (service.acceptworkflow(wf) > 0) {
 				// 출퇴근수정 카테고리일경우, workinghour 업데이트 + 원래 이력 넣기
 				if (wf.getWfcsrn() == 4) {
-					service.editWorkingHour(wh);
 					service.insertOriginWH(para);
+					service.editWorkingHour(wh);
 					// 휴가신청일 경우, 종료일-시작일 0이 아닐 경우 신청일수만큼 dayoff에 insert
-				} else {
+				} else if(wf.getWfcsrn() != 4){
 					if (service.selectdateDiff(wf) != 0) {
 						for (int i = 0; i < service.selectdateDiff(wf) + 1; i++) {
 							service.insertDayOff(wf);
@@ -316,8 +309,8 @@ public class WorkController {
 				out.println("<script>alert('기안 승인이 완료되었습니다.'); location.href='" + request.getContextPath()
 						+ "/work/groupWorkflow';</script>");
 
-				// 전자결재 상태 업데이트 x
 			} else {
+				// 전자결재 상태 업데이트 x
 				out.println("<script>alert('기안 승인이 불가합니다.'); javascript:history.go(-1);</script>");
 			}
 		}

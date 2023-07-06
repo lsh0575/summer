@@ -7,15 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupWorkingHour {
+public class GroupUserInfo {
+
 	private String userid;
 	private String username;
-	private String whdate;
-	private String whgotime;
-	private String whleavetime;
-	public GroupWorkingHour(String userid) {
-		super();
-		this.userid = userid;
-	}
-	
 }

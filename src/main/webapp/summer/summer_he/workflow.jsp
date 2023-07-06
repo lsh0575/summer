@@ -3,12 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
 
+<div class="mtotal">
 <div class="row">
 	<div class="col-sm-6">
 		<div>
 			<strong class="leftspace">최근 기안문서</strong> <a class="btn"
 				href="${pageContext.request.contextPath}/work/workflowdraft">기안함
 				바로가기</a>
+				
+				<!-- 아이디 그룹장이면 보이게 -->
+				<c:if test="${result==1}">
+				<a class="btn" href="${pageContext.request.contextPath}/work/groupWorkflow">
+				그룹원 기안 확인하러 가기</a>
+				</c:if>
 		</div>
 		<div class="row">
 			<c:forEach var="list" items="${list}" varStatus="status">
@@ -241,6 +248,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 
 <script>

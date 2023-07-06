@@ -127,15 +127,13 @@ public class TestDao001 {
 	 */
 
 	// 그룹원 - 이름 가져오기
-	@Test
-	@Ignore
-	public void test9() {
-		List<String> list = new ArrayList<>();
-		// Invitemember invitemember = new Invitemember();
-		// invitemember.getCno();
-		list = dao.selectName("gaceo");
-		log.info(list);
-	}
+	/*
+	 * @Test
+	 * 
+	 * @Ignore public void test9() { List<String> list = new ArrayList<>(); //
+	 * Invitemember invitemember = new Invitemember(); // invitemember.getCno();
+	 * list = dao.selectName("gaceo"); log.info(list); }
+	 */
 
 	// 그룹원 - 출퇴근시간 가져오기 - resultMap
 	/*
