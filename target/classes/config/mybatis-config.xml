@@ -4,7 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.summer.dto.UserVO" alias="UserVO" />
-		<!-- 예시 <typeAlias type="com.company.dto.BoardVO" alias="BoardVO" /> -->
+		<typeAlias type="com.summer.dto.WorkingHour"
+			alias="WorkingHour" />
+		<typeAlias type="com.summer.dto.WorkflowCategory"
+			alias="WorkflowCategory" />
+		<typeAlias type="com.summer.dto.Workflow" alias="Workflow" />
+		<typeAlias type="com.summer.dto.OriginWorkinghour"
+			alias="OriginWorkinghour" />
+		<typeAlias type="com.summer.dto.Dayoff" alias="Dayoff" />
+		<typeAlias type="com.summer.dto.WorkflowDate" alias="WorkflowDate" />
+		<typeAlias type="com.summer.dto.WorkflowName" alias="WorkflowName" />
+		<typeAlias type="com.summer.dto.GroupWorkingHour" alias="GroupWorkingHour" />
 	</typeAliases>
 </configuration>

@@ -1,57 +1,66 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel ="shortcuticon" href="${pageContext.request.contextPath}/images/pavicon.png" type="image/x-icon">
-  <link rel ="icon"         href="${pageContext.request.contextPath}/images/pavicon.png" type="image/x-icon">  <!-- 사파리  -->
+<link rel="shortcuticon"
+	href="${pageContext.request.contextPath}/images/pavicon.png"
+	type="image/x-icon">
+<link rel="icon"
+	href="${pageContext.request.contextPath}/images/pavicon.png"
+	type="image/x-icon">
+<!-- 사파리  -->
 <title>SUMMER</title>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- 날씨 api - fontawesome 아이콘 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/inc/summer_css.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/summer_css.css">
 </head>
 <body>
 	<div id="header">
 		<h1 class="myhidden">MY COMPANY</h1>
 		<nav class="navbar navbar-inverse hback">
 			<h2 class="myhidden">주메뉴</h2>
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a class="navbar-brand logodesign" href="#">SUMMER</a>
-	    </div>
-	    <ul class="nav navbar-nav">
-	      <li><a href="#">프로젝트</a></li>
-	      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">근무관리 <span class="caret"></span></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#">출/퇴근 관리</a></li>
-	          <li><a href="#">근태 관리</a></li>
-	        </ul>
-	      </li>
-	      <li><a href="#">전자결재</a></li>
-	      <li><a href="#">조직도</a></li>
-	      <li><a href="#">캘린더</a></li>
-	      	      
-	     
-	    </ul>
-	    
-	    <ul class="nav navbar-nav navbar-right">
-	    	<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">회원이름 <span class="caret"></span></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#">알림</a></li>
-	          <li><a href="#">회원정보 수정</a></li>
-	          <li><a href="#">로그아웃</a></li>
-	        </ul>
-	      </li>
-	    </ul>
-	    
-	  </div>
-	</nav>
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand logodesign" href="#">SUMMER</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="#">프로젝트</a></li>
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">근무관리 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">출/퇴근 관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/work/totaldayoff">연차 관리</a></li>
+						</ul></li>
+					<li><a href="${pageContext.request.contextPath}/work/workflow">전자결재</a></li>
+					<li><a href="#">조직도</a></li>
+					<li><a href="#">캘린더</a></li>
+
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">회원이름 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">알림</a></li>
+							<li><a href="#">회원정보 수정</a></li>
+							<li><a href="#">로그아웃</a></li>
+						</ul></li>
+				</ul>
+
+			</div>
+		</nav>
 	</div>

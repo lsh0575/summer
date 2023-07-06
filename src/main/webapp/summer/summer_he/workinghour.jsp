@@ -1,30 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../inc/header.jsp"%>
+<div>
+	<strong class="leftspace">근태 체크</strong>
+	<!-- userid가 그룹장 id면 보이기 -->
 
-<strong class="leftspace">근태 등록</strong>
-<div class="bottomline"></div>
-<strong class="leftspace">근태 체크</strong>
-
+<c:if test="${resultleader==1}">
+	<p class="btn text-right">
+		<a href="${pageContext.request.contextPath}/work/groupWorkingHour">그룹원
+			근태 확인</a>
+	</p>
+</c:if>
+</div>
 <div class="bottomline workingcheck">
 	<div class="row">
 		<div class="col-sm-3">
 			<div id="today"></div>
 		</div>
-		<div class="col-sm-3">
-			<div class="topspace">출근</div>
-			<div id="gotime">-</div>
-			<button class="btn btn-primary btnspace" id="gotowork">출근하기</button>
-		</div>
-		<div class="col-sm-3">
-			<div class="topspace">퇴근</div>
-			<div id="leavetime">-</div>
-			<button class="btn btn-primary btnspace" id="leavetowork">퇴근하기</button>
-		</div>
-		<div class="col-sm-3">
-			<div class="topspace">근무시간</div>
-			<div id="workinghour">-</div>
-		</div>
+
+		<fieldset id="btn_fieldset">
+			<div class="col-sm-3">
+				<div class="topspace">출근</div>
+				<div id="gotime"></div>
+				<c:if test="${result!=1}">
+				<button class="btn btn-primary btnspace" id="gotowork">출근하기</button>
+				</c:if>	
+				<c:if test="${result==1}">
+				<div class="textspace">${selectworkinghour.whgotime}</div>
+				</c:if>
+			</div>
+			<div class="col-sm-3">
+				<div class="topspace">퇴근</div>
+				<div id="leavetime"></div>
+				<c:if test="${result!=1}">
+				<button class="btn btn-primary btnspace" id="leavetowork">퇴근하기</button>
+				</c:if>
+				<c:if test="${result==1}">
+				<div class="textspace">${selectworkinghour.whleavetime}</div>
+				</c:if>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="topspace">근무시간</div>
+				<div id="workinghour"></div>
+				<c:if test="${result==1}">
+				<div id="workinghour1">${resulthour}<span>시간 </span>${resultmin}<span>분</span></div>
+			</c:if>
+			</div>
+		</fieldset>
 	</div>
 </div>
 
@@ -35,38 +59,86 @@
 			<th scope="col"></th>
 			<th scope="col">출근시간</th>
 			<th scope="col">퇴근시간</th>
-			<th scope="col">휴가 사용내역</th>
-			<th scope="col">1일 근무시간</th>
 		</tr>
 	</thead>
-	<tbody>
-		<tr>
-			<td>2023-06-01</td>
-			<td>09:00</td>
-			<td>21:00</td>
-			<td>오전반차/4시간</td>
-			<td>11시간</td>
-			<td><a href="${pageContext.request.contextPath}/editworkinghour.hyeeun" title="출퇴근수정 바로가기"><button
-						class="btn btn-primary">수정</button></a></td>
-		</tr>
-	</tbody>
-	<tfoot>
-		<th>평균</th>
-		<td>09:35</td>
-		<td>19:00</td>
-		<td>-</td>
-		<td>9시간 35분</td>
-		<td></td>
-	</tfoot>
+
+	<c:forEach var="list" items="${list}" varStatus="status">
+		<tbody>
+			<tr>
+				<td class="whdate">${list.whdate}</td>
+				<td class="whgotime">${list.whgotime}</td>
+				<td class="whleavetime">${list.whleavetime}</td>
+				<td><input type="hidden" class="whsrn" value="${list.whsrn}" />
+					<input type="hidden" class="userid" value="${list.userid}" />
+					<button class="btn btn-primary editworkinghour" data-toggle="modal"
+						data-target="#myModal">수정</button></td>
+			</tr>
+		</tbody>
+	</c:forEach>
 </table>
 
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 35px 50px;">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4>출퇴근시간 수정</h4>
+			</div>
+			<div class="modal-body modalsize" style="padding: 40px 50px;">
+				<form role="form"
+					action="${pageContext.request.contextPath}/work/insertWorkFlow"
+					method="post">
+					<div class="form-group">
+						<label for="wfapplystartdate">시작일</label> <input type="text"
+							class="form-control" name="wfapplystartdate"
+							id="wfapplystartdate" value="" readonly>
+					</div>
+
+					<div class="form-group">
+						<label for="wfapplyenddate">종료일</label> <input type="text"
+							class="form-control" name="wfapplyenddate" id="wfapplyenddate"
+							value="" readonly>
+					</div>
+
+					<div class="form-group">
+						<label for="wfapplystarttime">출근시간</label> <input type="text"
+							class="form-control" name="wfapplystarttime"
+							id="wfapplystarttime" value="">
+					</div>
+
+					<div class="form-group">
+						<label for="wfapplyendtime">퇴근시간</label> <input type="text"
+							class="form-control" name="wfapplyendtime" id="wfapplyendtime"
+							value="">
+					</div>
+
+					<input type="hidden" name="whsrn" id="whsrn" value="" /> <input
+						type="hidden" name="userid" id="userid" value="" /> <input
+						type="hidden" name="wfcsrn" id="userid" value="4" />
+
+					<button type="submit" class="btn btn-success btn-block">기안하기</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-default pull-left"
+					data-dismiss="modal">
+					<span class="glyphicon glyphicon-remove"></span>취소
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
+
 	//현재 날짜, 시간 불러오기
 	let date = new Date();
 	var year = date.getFullYear();
 	var month = ("0" + (1 + date.getMonth())).slice(-2);
 	var day = ("0" + date.getDate()).slice(-2);
-	var today = year + "." + month + "." + day;
+	var today = year + "-" + month + "-" + day;
 
 	var hours = ('0' + date.getHours()).slice(-2);
 	var minutes = ('0' + date.getMinutes()).slice(-2);
@@ -78,23 +150,43 @@
 		var selector = document.querySelector("#today");
 		selector.innerHTML = today + "<div class='actfont'>" + time + "</div>";
 	});
-	
+
+	//수정버튼 눌렀을 때
+	$(function() {
+		$(".editworkinghour").on("click",function() {
+							var whsrn = $(this).closest("tr").find(".whsrn").html();
+							var whdate = $(this).closest("tr").find(".whdate").html();
+							var whgotime = $(this).closest("tr").find(".whgotime").html();
+							var whleavetime = $(this).closest("tr").find(".whleavetime").html();
+							var userid = $(this).closest("tr").find(".userid").html();
+
+							document.getElementById('whsrn').value = whsrn;
+							document.getElementById('wfapplystartdate').value = whdate;
+							document.getElementById('wfapplyenddate').value = whdate;
+							document.getElementById('wfapplystarttime').value = whgotime;
+							document.getElementById('wfapplyendtime').value = whleavetime;
+							document.getElementById('userid').value = userid;
+
+						});
+	});
+
 	//현재 날짜, 시간 1초마다 메서드 호출
 	setInterval(function() {
 		let date = new Date();
 		var year = date.getFullYear();
 		var month = ("0" + (1 + date.getMonth())).slice(-2);
 		var day = ("0" + date.getDate()).slice(-2);
-		var today = year + "." + month + "." + day;
+		var today = year + "-" + month + "-" + day;
 
 		var hours = ('0' + date.getHours()).slice(-2);
 		var minutes = ('0' + date.getMinutes()).slice(-2);
 		var seconds = ('0' + date.getSeconds()).slice(-2);
 		var currenttime = hours + ":" + minutes + ":" + seconds;
 		var selector = document.querySelector("#today");
-		selector.innerHTML = today + "<div class='actfont'>" + currenttime + "</div>";
+		selector.innerHTML = today + "<div class='actfont'>" + currenttime
+				+ "</div>";
 	}, 1000);
-	
+
 	//테이블캡션
 	var selectmonth = year + "-" + month;
 	var selectormonth = document.querySelector("#currentmonth");
@@ -103,45 +195,114 @@
 	//출근버튼 + 데이터 insert
 	$(function() {
 		$("#gotowork").on("click", function() {
+
 			let date = new Date();
 			var year = date.getFullYear();
 			var month = ("0" + (1 + date.getMonth())).slice(-2);
 			var day = ("0" + date.getDate()).slice(-2);
-			var today = year + "." + month + "." + day;
+			var today = year + "-" + month + "-" + day;
 
 			var hours = ('0' + date.getHours()).slice(-2);
 			var minutes = ('0' + date.getMinutes()).slice(-2);
 			var seconds = ('0' + date.getSeconds()).slice(-2);
-			var gotime = hours + ":" + minutes + ":" + seconds;
-			
+			var gotime = hours + ":" + minutes;
+
 			var gotimerecord = document.querySelector("#gotime");
 			gotimerecord.innerHTML = gotime;
-			
-			$("#gotowork").unbind('click');
-			
-		});
-	//퇴근버튼 + 데이터 insert	
-		$("#leavetowork").on("click", function() {
-			let date = new Date();
-			var year = date.getFullYear();
-			var month = ("0" + (1 + date.getMonth())).slice(-2);
-			var day = ("0" + date.getDate()).slice(-2);
-			var today = year + "." + month + "." + day;
+			//$("#gotimerecord").html(gotime);
 
-			var hours = ('0' + date.getHours()).slice(-2);
-			var minutes = ('0' + date.getMinutes()).slice(-2);
-			var seconds = ('0' + date.getSeconds()).slice(-2);
-			var leavetime = hours + ":" + minutes + ":" + seconds;	
-			
-			var leavetimerecord = document.querySelector("#leavetime");
-			leavetimerecord.innerHTML = leavetime;
-			
-			$("#leavetowork").unbind('click');
-			
-			// 퇴근시간-출근시간은 테이블에서 가져와서 하기
+			const gotimeelement = document.getElementById('gotime');
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/work/gotimeinsert",
+				type : "GET",
+				data : {
+					"whgotime" : gotimeelement.innerText,
+					"whleavetime" : gotimeelement.innerText,
+					"whdate" : today,
+					"userid" : "dagmm"
+				},
+				/* {'userid':${sessionScope.userid}} */
+				success : function(data) {
+					$("#gotowork").addClass("disabled");
+				},
+				error : function() {
+					alert("관리자에게 문의 바랍니다.");
+				}
+			});
+
+			$("#gotowork").unbind('click');
+
 		});
 	});
-	
+
+	//퇴근버튼 + 데이터 insert	
+	$("#leavetowork").on("click",function() {
+						//console.log($("#gotime").html());
+						let date = new Date();
+						var year = date.getFullYear();
+						var month = ("0" + (1 + date.getMonth())).slice(-2);
+						var day = ("0" + date.getDate()).slice(-2);
+						var today = year + "." + month + "." + day;
+
+						var hours = ('0' + date.getHours()).slice(-2);
+						var minutes = ('0' + date.getMinutes()).slice(-2);
+						var seconds = ('0' + date.getSeconds()).slice(-2);
+						var leavetime = hours + ":" + minutes;
+
+						var leavetimerecord = document
+								.querySelector("#leavetime");
+						leavetimerecord.innerHTML = leavetime;
+
+						const leavetimeelement = document
+								.getElementById('leavetime');
+						//console.log(leavetimeelement.ineerTEXT); 
+
+						$.ajax({
+									url : "${pageContext.request.contextPath}/work/leavetimeupdate",
+									type : "POST",
+									data : {
+										"whleavetime" : leavetimeelement.innerText,
+										"userid" : "dagmm"
+									},
+									/* {'userid':${sessionScope.userid}} */
+									success : function(data) {
+										$("#leavetowork").addClass("disabled");
+									},
+									error : function() {
+										alert("관리자에게 문의 바랍니다.");
+									}
+								});
+						// 퇴근시간-출근시간은 테이블에서 가져와서 하기
+						var gotimediff = $("#gotime").html();
+						var leavetimediff = $("#leavetime").html();
+
+						var gotimediffmin = gotimediff.substr(3, 2); //출근시간 분
+						var leavetimediffmin = leavetimediff.substr(3, 2); //퇴근시간 분
+
+						const gonum1 = parseInt(gotimediffmin);
+						const leavenum1 = parseInt(leavetimediffmin);
+
+						var gotimediffhour = gotimediff.substr(0, 2); //출근시간 시
+						var leavetimediffhour = leavetimediff.substr(0, 2); //퇴근시간 시
+
+						const gonum2 = parseInt(gotimediffhour);
+						const leavenum2 = parseInt(leavetimediffhour);
+
+						var workinghourrecord = document
+								.querySelector("#workinghour");
+						leavetimerecord.innerHTML = leavetime;
+
+						if (leavetimediffmin - gotimediffmin < 0) {
+							workinghourrecord.innerHTML = (leavenum2 - gonum2 + 1)
+									+ "시간 " + (leavenum1 - gonum1 + 60) + "분";
+						} else {
+							workinghourrecord.innerHTML = (leavenum2 - gonum2)
+									+ "시간 " + (leavenum1 - gonum1) + "분";
+						}
+
+						$("#leavetowork").unbind('click');
+					});
 </script>
 
 <%@ include file="../../inc/footer.jsp"%>

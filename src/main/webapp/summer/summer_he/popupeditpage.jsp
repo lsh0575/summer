@@ -26,7 +26,7 @@
 	<div class="row popupcenter">
 		<div class="col-sm-3 popupborder">
 			<div class="topspace">기안</div>
-			<div>김혜은</div>
+			<div>${workingHour.userid}</div>
 		</div>
 		<div class="col-sm-3 popupborder">
 			<div class="topspace">결재자</div>
@@ -53,17 +53,16 @@
 					<label class="leftspacename">날짜</label>
 				</div>
 				<div class="col-sm-9">
-					<input type="date" name="date" id="date" />
+					<input type="date" name="date" id="date" value="${workingHour.whdate}" />
 				</div>
 			</div>
 
-
-		<!-- 	<div class="row form-group">
+	<div class="row form-group">
 				<div class="col-sm-3 popupfont">
 					<label class="leftspacename">출근시간</label>
 				</div>
 				<div class="col-sm-9">
-					<input type="text" value="자동으로 들어가게" name="usetime" id="usetime" />
+					<input type="text" value="${workingHour.whgotime}" name="gotime" id="gotime" />
 				</div>
 			</div>
 			
@@ -72,9 +71,9 @@
 					<label class="leftspacename">퇴근시간</label>
 				</div>
 				<div class="col-sm-9">
-					<input type="text" value="자동으로 들어가게" name="usetime" id="usetime" />
+					<input type="text" value="${workingHour.whleavetime}" name="leavetime" id="leavetime" />
 				</div>
-			</div> -->
+			</div> 
 
 			<div class="row form-group">
 				<div class="col-sm-3 popupfont">
@@ -94,7 +93,7 @@
 	</form>
 
 	<script>
-		//날짜 선택하면 아작스로 해당일 출근시간, 퇴근시간 불러와주기
+
 	</script>
 </body>
 </html>

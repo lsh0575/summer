@@ -19,11 +19,17 @@
 </head>
 <body>
 		<script>
-		location.href="list.do";
-		// location.href="select.do?no=2";
-		//location.href="insert.do?name=hyeeun&age=11";
-		//location.href="update.do?no=3&name=hyeeun&age=12";
-		//location.href="delete.do?no=33";
+		//근태관리
+		location.href="work/workinghour"; 
+		
+		//연차
+		//location.href="work/totaldayoff";
+		
+		//전자결재
+		//location.href="work/workflow";
+		
+		//그룹원-전자결재확인
+		//location.href="work/groupWorkflow";
 		</script>
 </body>
 </html>
