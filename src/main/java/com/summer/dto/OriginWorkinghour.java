@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OriginWorkinghour {
-private int wfsrn;
+private int whsrn;
 private String origingotime;
 private String originleavetime;
 

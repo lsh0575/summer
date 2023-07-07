@@ -39,6 +39,16 @@
 		#{wfapplyendtime}, #{userid},
 		#{wfcsrn});
 	</insert>
+	
+	<insert id="insertWorkFlowLeader">
+		insert into workflow (wfstatus, wfapplystartdate,
+		wfapplyenddate, wfapplystarttime,
+		wfapplyendtime, userid, wfcsrn)
+		values('승인', #{wfapplystartdate}, #{wfapplyenddate}, #{wfapplystarttime},
+		#{wfapplyendtime}, #{userid},
+		#{wfcsrn})
+	
+	</insert>
 
 	<update id="editWorkingHour" parameterType="WorkingHour">
 		update workinghour
@@ -48,26 +58,13 @@
 		userid=#{userid} and whdate=#{whdate}
 	</update>
 
+<!-- select wfsrn from workflow where userid=${userid} and wfcsrn=4 order by wfsrn desc limit 1 -->
+
 	<insert id="insertOriginWH" parameterType="java.util.HashMap">
-		insert into
-		originworkinghour (wfsrn, origingotime, originleavetime) values
-		((select wfsrn from workflow where wfsrn=#{wfsrn} and userid=#{userid}
-		and wfcsrn=4 order by wfdate desc limit 1),
-		(select whgotime from
-		workinghour wh
-		where whdate=(select wfapplystartdate from workflow
-		where
-		wfsrn=#{wfsrn} and userid=#{userid} and wfcsrn=4 order by wfdate
-		desc limit 1)
-		order by whsrn desc limit 1),
-		(select whleavetime from
-		workinghour wh where whdate=(select wfapplystartdate
-		from workflow
-		where wfsrn=#{wfsrn} and
-		userid=#{userid} and wfcsrn=4
-		order by wfdate
-		desc limit 1)
-		order by whsrn desc limit 1));
+insert into originworkinghour (whsrn, origingotime, originleavetime) values (
+(select whsrn from workinghour where userid=#{userid} and whdate=#{whdate}),
+(select whgotime from workinghour where userid=#{userid} and whdate=#{whdate}),
+(select whleavetime from workinghour where userid=#{userid} and whdate=#{whdate}))
 	</insert>
 
 	<select id="totalDayOff" parameterType="string" resultType="int">
@@ -79,7 +76,7 @@
 
 	<select id="useDayOffSum" parameterType="java.util.HashMap"
 		resultType="int">
-		select sum(duse) from dayoff where wfsrn in (select wfsrn
+		select ifnull(sum(duse), 0)`duse` from dayoff where wfsrn in (select wfsrn
 		from workflow
 		where userid=#{userid} and wfcsrn != 4 and wfstatus='승인')
 	</select>
@@ -143,7 +140,11 @@
 		datediff(wfapplyenddate,wfapplystartdate) from
 		workflow where
 		userid=#{userid} and wfcsrn != 4 and wfstatus='승인'and
-		wfsrn=${wfsrn}
+		wfsrn=#{wfsrn}
+	</select>
+	
+	<select id="selectwfsrn" parameterType="string" resultType="int">
+	select wfsrn from workflow where userid=${userid} and wfcsrn=4 order by wfsrn desc limit 1
 	</select>
 
 	<insert id="insertDayOff" parameterType="Workflow">
@@ -186,8 +187,11 @@
 	</select>
 
 	<select id="groupLeaderId" resultType="string">
-		select summer_user_userid
-		from sgroup
+		select summer_user_userid from sgroup
+	</select>
+	
+	<select id="groupId" resultType="string">
+		select uid from invitemember where cno=1;
 	</select>
 
 	<delete id="deleteWorkflow" parameterType="Workflow">

@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>SUMMER 그룹웨어 회원가입</title>
+<title>SUMMER 그룹 웨어 회원가입</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <!-- jQuery library -->
@@ -15,83 +15,84 @@
 	<!-- 사용자 회원가입 폼 -->
 	<div class="container body-top">
 		
-		<form action="#" method="post" id="form">
+		<form action="${pageContext.request.contextPath}/account/uInsert" method="post" id="form">
 			<fieldset>
-				<legend class="text-center">SUMMER 그룹웨어 회원가입</legend>
+				<legend class="text-center">SUMMER 그룹 웨어 회원가입</legend>
 				<p>(*)은 필수 요소입니다.</p>
 				<div class="form-group">
 					<label for="userId">아이디 입력(*) </label>
 					<!-- 아이디 중복체크 start -->
 					<span id="idDuplCheck"></span>
 					<!-- 아이디 중복체크 end -->
-					<input type="text" class="form-control" id="userId" name="id" placeholder="사용할 아이디를 입력해주세요"/>
+					<input type="text" class="form-control" id="userId" name="userid" placeholder="사용할 아이디를 입력해주세요"/>
 				</div>
-				
 				<div class="form-group">
 					<label for="userPass">비밀번호 입력(*)</label>
-					<input type="password" class="passForm form-control" id="userPass" name="pass" placeholder="비밀번호를 입력해주세요"/>
+					<input type="password" class="passForm form-control" id="userPass" name="userpass" placeholder="비밀번호를 입력해주세요"/>
 				</div>
-				
 				<div class="form-group">
 					<label for="passCheck">비밀번호 확인(*) </label><span id="passConfirm"></span>
 					<input type="password" class="passForm form-control" id="passCheck" name="passCheck" placeholder="비밀번호를 확인해주세요."/>
 				</div>
 				<div class="form-group">
 					<label for="userName">이름 입력(*)</label>
-					<input type="text" class="form-control" id="userName" name="name" placeholder="이름을 입력해주세요"/>
+					<input type="text" class="form-control" id="userName" name="username" placeholder="이름을 입력해주세요"/>
 				</div>
 				<div class="form-group">
 					<label for="userBirth">생년월일 입력(*)</label>
 					<!-- max=""을 통해 생일을 금일 날짜 이후는 선택 할 수 없도록 설정 -->
-					<input type="date" class="form-control" id="userBirth" name="birth" max="" />
+					<input type="date" class="form-control" id="userBirth" name="userbirth" max="" />
 				</div>
 				<div class="form-group">
 					<label for="position">직책 입력(*)</label> <br/>
-					<input type="radio" name="position" value="1" id="ceo"> 
+					<input type="radio" name="category_positionno" value="1" id="ceo"> 
 					<label for="ceo">사장</label>
-					<input type="radio" name="position" value="2" id="gm"> 
+					<input type="radio" name="category_positionno" value="2" id="gm"> 
 					<label for="gm">부장</label>
-					<input type="radio" name="position" value="3" id="gmm"> 
+					<input type="radio" name="category_positionno" value="3" id="gmm"> 
 					<label for="gmm">과장</label>
-					<input type="radio" name="position" value="4" id="am"> 
+					<input type="radio" name="category_positionno" value="4" id="am"> 
 					<label for="am">대리</label>
-					<input type="radio" name="position" value="5" id="sm" checked> 
+					<input type="radio" name="category_positionno" value="5" id="sm" checked> 
 					<label for="sm">사원</label>
 				</div>
 				<div class="form-group">
 					<label for="userSex">성별 입력(*)</label> <br/>
 					<label for="male">남자</label>
-					<input type="radio" name="userSex" value="1" id="male" checked> 
+					<input type="radio" name="usersex" value="1" id="male" checked> 
 					<label for="femail">여자</label>
-					<input type="radio" name="userSex" value="2" id="femail"> 
+					<input type="radio" name="usersex" value="2" id="femail"> 
 				</div>
 				<div class="form-group">
 					<label for="userEmail">이메일 입력(*)</label>
-					<input type="email" class="form-control" id="userEmail" name="email" placeholder="이메일을 입력해주세요"/>
+					<!-- 이메일 중복체크 start -->
+					<span id="emailDuplCheck"></span>
+					<!-- 이메일 중복체크 end -->
+					<input type="email" class="form-control" id="userEmail" name="useremail" placeholder="이메일을 입력해주세요"/>
 				</div>
 				<div class="form-group">
 					<label for="userPhone">휴대전화번호 입력(*)</label>
-					<input type="text" class="form-control" id="userPhone" name="phonenum" placeholder="휴대전화번호를 입력해주세요"/>
+					<input type="text" class="form-control" id="userPhone" name="userphone" placeholder="휴대전화번호를 입력해주세요"/>
 				</div>
 				<div class="form-group">
 					<div style="width:200px;">
 						<label for="userPostnum">우편번호 입력(5자리)(*)</label>
-						<input type="text" class="form-control" id="userPostnum" name="postnum" placeholder="우편번호를 입력해주세요" maxlength="5"/>
+						<input type="text" class="form-control" id="userPostnum" name="userpostnum" placeholder="우편번호를 입력해주세요" maxlength="5"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="userPostnum">도로명 주소 입력(*)</label>
-					<input type="text" class="form-control" id="basic_userAddr" name="basic_addr" placeholder="주소를 입력해주세요." readonly/>
+					<input type="text" class="form-control" id="basic_userAddr" name="basic_useraddr" placeholder="주소를 입력해주세요." readonly/>
 				</div>
 				<div class="form-group">
 					<label for="userAddr">상세주소 입력(*)</label>
-					<input type="text" class="form-control" id="userAddr" name="addr" placeholder="상세주소를 입력해주세요"/>
+					<input type="text" class="form-control" id="userAddr" name="useraddr" placeholder="상세주소를 입력해주세요"/>
 				</div>
 				<div class="form-group">
 					<input type="submit" class="btn btn-success form-control" value="계정 생성"/>
 				</div>
 				<div class="text-center">
-					<p><a href="javascript:history.go(-1)" class="btn btn-danger form-control" id="cancle" title="처음으로 돌아갑니다..">취소</a></p>
+					 <input type="reset"   onclick="history.go(-1);"    value="취소"  class="btn btn-danger form-control"    > 
 				</div>
 			</fieldset>
 		</form>
@@ -112,23 +113,60 @@
 				$("#userPostnum").click();
 			});
 			// 아이디 중복 확인 START
-			$("#userId").on("keyup",function(){
-				if ($("#userId").val().trim()!=""){
-					$.ajax({
-						url:"${pageContext.request.contextPath}/#",
-						type:"get",
-						dataType:"text",
-						data:{"id":$('#userId').val()},
-						success:function(data){
-							$("#idDuplCheck").html(data);
-						},
-						error:function(xhr,textStatus,errorThrown){
-							$("#idDuplCheck").html(xhr.status + "-"+textStatus+":"+errorThrown);
-						}
-					});
-				}
+			$("#userId").on("keyup", function() {
+			    if ($("#userId").val().trim() != "") {
+			        $.ajax({
+			            url: "${pageContext.request.contextPath}/account/uIdCheck",
+			            type: "GET",
+			            dataType: "text",
+			            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			            data: { "id": $('#userId').val() },
+			            success: function(response) {
+			                if (response.includes("This ID is not available.")) {
+			                    $("#idDuplCheck").html("<span style=\"color:red;\">" + response + "</span>");
+			                    // 중복되지 않은 아이디임을 표시하는 데이터 속성 추가
+			                    $("#idDuplCheck").attr("data-check", "false");
+			                } else {
+			                    $("#idDuplCheck").html("<span style=\"color:green;\">" + response + "</span>");
+			                    // 중복된 아이디임을 표시하는 데이터 속성 추가
+			                    $("#idDuplCheck").attr("data-check", "true");
+			                }
+			            },
+			            error: function(xhr, textStatus, errorThrown) {
+			                $("#idDuplCheck").html(xhr.status + "-" + textStatus + ":" + errorThrown);
+			            }
+			        });
+			    }
 			});
 			// 아이디 중복 확인 END
+			
+			// 이메일 중복 확인 START
+			$("#userEmail").on("keyup", function() {
+			    if ($("#userEmail").val().trim() != "") {
+			        $.ajax({
+			            url: "${pageContext.request.contextPath}/account/uEmailCheck",
+			            type: "GET",
+			            dataType: "text",
+			            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			            data: { "email": $('#userEmail').val() },
+			            success: function(response) {
+			                if (response.includes("This Email is not available.")) {
+			                    $("#emailDuplCheck").html("<span style=\"color:red;\">" + response + "</span>");
+			                    // 중복되지 않은 이메일임을 표시하는 데이터 속성 추가
+			                    $("#emailDuplCheck").attr("data-check", "false");
+			                } else {
+			                    $("#emailDuplCheck").html("<span style=\"color:green;\">" + response + "</span>");
+			                    // 중복된 이메일임을 표시하는 데이터 속성 추가
+			                    $("#emailDuplCheck").attr("data-check", "true");
+			                }
+			            },
+			            error: function(xhr, textStatus, errorThrown) {
+			                $("#idDuplCheck").html(xhr.status + "-" + textStatus + ":" + errorThrown);
+			            }
+			        });
+			    }
+			});
+			// 이메일 중복 확인 END
 			
 			// 비밀번호 입력 확인
 			$(".passForm").on("keyup",function(){
@@ -161,7 +199,7 @@
 				// 아이디 빈칸 검사 END
 				
 				// 아이디 중복 검사 START
-				else if ($("#id_check").data("check") != 'checked'){
+				else if ($("#id_check").data("check")){
 						 $("#userId").focus();
 						 alert ('아이디가 중복되어있습니다.');
 						 return false;

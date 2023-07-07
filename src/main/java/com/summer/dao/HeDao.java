@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.summer.dto.Dayoff;
@@ -20,6 +22,7 @@ public interface HeDao {
 	public int whleavetimeUpdate(WorkingHour wh);
 	public List<WorkingHour> monthlyWorkingHour(Map<String, String> para);
 	public int insertWorkFlow(Workflow wf);
+	public int insertWorkFlowLeader(Workflow wf);
 	public int editWorkingHour(WorkingHour wh);
 	public int insertOriginWH(Map<String, String> para);
 	public int totalDayOff(String para); 
@@ -40,5 +43,7 @@ public interface HeDao {
 	public Workflow detailWorkflow(Workflow wf);
 	public int acceptworkflow(Workflow wf);
 	public int rejectworkflow(Workflow wf);
-	public int selectdateDiff(Workflow wf);
+	public Integer selectdateDiff(Workflow wf);
+	public List<String> groupId();
+	public int selectwfsrn(String para);
 }

@@ -4,67 +4,73 @@
 	<!-- 사용자 마이페이지 수정 폼 START -->
 	<div class="container body-top">
 		
-		<form action="#" method="post" id="form">
+		<form action="${pageContext.request.contextPath}/account/uUpdate" method="post" id="form">
 			<fieldset>
-				<legend class="text-center">SUMMER 그룹웨어 회원가입</legend>
+				<legend class="text-center">${sessionScope.userid} 정보 수정</legend>
 				<p>(*)은 필수 요소입니다.</p>
 				<div class="form-group">
 					<label for="userId">아이디 입력(*) </label>
 					<!-- 아이디 중복체크 start -->
 					<span id="idDuplCheck"></span>
 					<!-- 아이디 중복체크 end -->
-					<input type="text" class="form-control" id="userId" name="id" value="#user01#" readonly />
+					<input type="text" class="form-control" id="userId" name="userid" value="${sessionScope.userid}" readonly />
 				</div>
 				
 				<div class="form-group">
 					<label for="userPass">비밀번호 입력(*)</label>
-					<input type="password" class="passForm form-control" id="userPass" name="pass" placeholder="비밀번호를 입력해주세요" />
+					<input type="password" class="passForm form-control" id="userPass" name="userpass" placeholder="비밀번호를 입력해주세요" />
 				</div>
 				
 				<div class="form-group">
 					<label for="passCheck">비밀번호 확인(*) </label><span id="passConfirm"></span>
 					<input type="password" class="passForm form-control" id="passCheck" name="passCheck" placeholder="비밀번호를 확인해주세요." />
 				</div>
+				
 				<div class="form-group">
 					<label for="userName">이름 입력(*)</label>
-					<input type="text" class="form-control" id="userName" name="name" value="#홍길동#" readonly />
+					<input type="text" class="form-control" id="userName" name="username" value="${userUpdate.username}" readonly />
 				</div>
 				<div class="form-group">
 					<label for="userBirth">생년월일 입력(*)</label>
 					<!-- max=""을 통해 생일을 금일 날짜 이후는 선택 할 수 없도록 설정 -->
-					<input type="date" class="form-control" id="userBirth" name="birth" max="" />
+					<input type="date" class="form-control" id="userBirth" name="userbirth" value="${userUpdate.userbirth}" readonly />
 				</div>
+				
 				<div class="form-group">
+					<input type="hidden" class="form-control" name="category_positionno" value="${userUpdate.category_positionno}" />
 					<label for="position">직책 입력(*)</label>
-					<input type="text" class="form-control" id="ceo" name="position" value="#사장#" readonly />
+					<input type="text" class="form-control" id="ceo" value="${userUpdate.positionlist}" readonly />
 				</div>
+				
 				<div class="form-group">
-					<label for="userSex">성별 입력(*)</label> <br/>
-					<label for="male">남자</label>
-					<input type="text" class="form-control" id="male" name="userSex" value="#남자#" readonly />
+				  <label for="userSex">성별 입력(*)</label>
+				  <label for="${userUpdate.usersex == 1 ? 'male' : 'female'}"></label>
+				  <input type="text" class="form-control" id="${userUpdate.usersex == 1 ? 'male' : 'female'}" name="usersex" value="${userUpdate.usersex == 1 ? '남자' : '여자'}" readonly />
 				</div>
 				<div class="form-group">
 					<label for="userEmail">이메일 입력(*)</label>
-					<input type="email" class="form-control" id="userEmail" name="email" placeholder="이메일을 입력해주세요"/>
+					<input type="email" class="form-control" id="userEmail" name="useremail" placeholder="이메일을 입력해주세요"/>
 				</div>
+				
 				<div class="form-group">
 					<label for="userPhone">휴대전화번호 입력(*)</label>
-					<input type="text" class="form-control" id="userPhone" name="phonenum" placeholder="휴대전화번호를 입력해주세요"/>
+					<input type="text" class="form-control" id="userPhone" name="userphone" placeholder="휴대전화번호를 입력해주세요"/>
 				</div>
 				<div class="form-group">
 					<div style="width:200px;">
 						<label for="userPostnum">우편번호 입력(5자리)(*)</label>
-						<input type="text" class="form-control" id="userPostnum" name="postnum" placeholder="우편번호를 입력해주세요" maxlength="5"/>
+						<input type="text" class="form-control" id="userPostnum" name="userpostnum" placeholder="우편번호를 입력해주세요" maxlength="5"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="userPostnum">도로명 주소 입력(*)</label>
-					<input type="text" class="form-control" id="basic_userAddr" name="basic_addr" placeholder="주소를 입력해주세요." readonly/>
+					<input type="text" class="form-control" id="basic_userAddr" name="basic_useraddr" placeholder="주소를 입력해주세요." readonly/>
 				</div>
 				<div class="form-group">
 					<label for="userAddr">상세주소 입력(*)</label>
-					<input type="text" class="form-control" id="userAddr" name="addr" placeholder="상세주소를 입력해주세요"/>
+					<input type="text" class="form-control" id="userAddr" name="useraddr" placeholder="상세주소를 입력해주세요"/>
 				</div>
+				<%--  --%>
 				<div class="form-group">
 					<input type="submit" class="btn btn-success form-control" value="확인"/>
 				</div>
@@ -106,9 +112,6 @@
 				}
 			});
 			
-			// 날짜를 오늘 날짜 이후로 설정 할 수 없도록 막음
-			$("#userBirth").attr("max", new Date().toISOString().split("T")[0]);
-			
 			// 빈칸 검사 START
 			$("#form").on("submit",function(){
 				
@@ -127,23 +130,6 @@
 						 return false;
 				}
 				// 비밀번호 확인 END
-				
-				// 이름 빈칸 검사 START
-				else if ($("#userName").val().trim()==""){
-						 $("#userName").focus();
-						 alert('이름을 입력해주세요.');
-						 return false;
-				}
-				// 이름 빈칸 검사 END
-				
-				// 생일 빈칸 검사 START
-				else if ($("#userBirth").val()==""){ 
-						 $("#userBirth").focus();
-						 alert('생일을 입력해주세요.');
-						 return false;
-				}
-				
-				// 생일 빈칸 검사 END
 				
 				// 이메일 빈칸 검사 START
 				else if ($("#userEmail").val()==""){ 

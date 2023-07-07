@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>SUMMER 그룹웨어 이용약관</title>
+<title>SUMMER 그룹 웨어 이용 약관</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <!-- jQuery library -->
@@ -41,7 +41,7 @@
 			<textarea cols="100" rows="9" readonly><%@ include file="../terms/privacyTermsConditions.txt" %></textarea>
 		</div>
 		<div class="text-center">
-			<p><a href="#" class="btn btn-success form-control" id="accept" title="약관에 동의합니다">동의</a>
+			<p><a href="${pageContext.request.contextPath}/account/uInsert" class="btn btn-success form-control" id="accept" title="약관에 동의합니다">동의</a>
 		</div>
 		<div class="text-center">
 			<p><a href="javascript:history.go(-1)" class="btn btn-danger form-control" id="cancle" title="약관에 동의하지 않습니다.">취소</a>

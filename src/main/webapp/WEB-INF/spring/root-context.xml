@@ -16,6 +16,7 @@
 		<property name="mapperLocations">
 			<list>
 				<value>classpath:/config/he-mapper.xml</value>
+					<value>classpath:/config/sh-mapper.xml</value>
 			</list>
 		</property>
 	</bean>

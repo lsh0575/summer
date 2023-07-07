@@ -67,13 +67,18 @@
 	<c:forEach var="list" items="${list}" varStatus="status">
 		<tbody>
 			<tr>
-				<td class="whdate">${list.whdate}</td>
-				<td class="whgotime">${list.whgotime}</td>
-				<td class="whleavetime">${list.whleavetime}</td>
-				<td><input type="hidden" class="whsrn" value="${list.whsrn}" />
-					<input type="hidden" class="userid" value="${list.userid}" />
-					<button class="btn btn-primary editworkinghour" data-toggle="modal"
-						data-target="#myModal">수정</button></td>
+				<td class="whdate1">${list.whdate}</td>
+				<td class="whgotime1">${list.whgotime}</td>
+				<td class="whleavetime1">${list.whleavetime}</td>
+				<td><button class="btn btn-primary editworkinghour" data-toggle="modal"
+						data-target="#myModal">수정</button>
+						
+				<input type="hidden" name="whdate"   class="whdate" value="${list.whdate}" />
+				<input type="hidden" name="wfcsrn"   class="wfcsrn" value="4" />
+				<input type="hidden" name="whgotime" class="whgotime" value="${list.whgotime}" />
+				<input type="hidden" name="whleavetime" class="whleavetime" value="${list.whleavetime}" />
+				<input type="hidden" name="whsrn" class="whsrn" value="${list.whsrn}" />
+				<input type="hidden" name="userid" class="userid" value="${list.userid}" /></td>
 			</tr>
 		</tbody>
 	</c:forEach>
@@ -116,9 +121,11 @@
 							value="">
 					</div>
 
-					<input type="hidden" name="whsrn" id="whsrn" value="" /> <input
-						type="hidden" name="userid" id="userid" value="" />
-						<input type="hidden" name="wfcsrn" id="userid" value="4" />
+					<input type="hidden" name="whdate" id="whdate" value="" />
+					<input type="hidden" name="whsrn" id="whsrn" value="" />
+					<input type="hidden" name="whgotime" id="whgotime" value="" />				
+					<input type="hidden" name="whleavetime" id="whleavetime" value="" />
+					<input type="hidden" name="wfcsrn"  class="wfcsrn" value="4" />
 
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
@@ -154,22 +161,39 @@
 	});
 
 	//수정버튼 눌렀을 때
+	// <button class="btn btn-primary editworkinghour" data-toggle="modal" data-target="#myModal">수정</button>
 	$(function() {
-		$(".editworkinghour").on("click",function() {
-							var whsrn = $(this).closest("tr").find(".whsrn").html();
-							var whdate = $(this).closest("tr").find(".whdate").html();
-							var whgotime = $(this).closest("tr").find(".whgotime").html();
-							var whleavetime = $(this).closest("tr").find(".whleavetime").html();
-							var userid = $(this).closest("tr").find(".userid").html();
+		$(".editworkinghour" ).click( function() { 
+			
+			var whsrn       = $(this).closest("td").find(".whsrn").val();
+			var whdate      = $(this).closest("td").find(".whdate").val();
+			var whgotime    = $(this).closest("td").find(".whgotime").val();
+			var whleavetime = $(this).closest("td").find(".whleavetime").val();
+			var userid       = $(this).closest("td").find(".userid").val();  
+			 
+			console.log( whsrn  + "/" + whdate + "/" + whgotime + "/" + whleavetime + "/" +userid);
+			
+			//$("#whsrn").val(whsrn);
+			$("#wfapplystartdate").val(whdate);
+			$("#wfapplyenddate").val(whdate);
+			$("#wfapplystarttime").val(whgotime);
+			$("#wfapplyendtime").val(whleavetime);
+			$("#whsrn").val(whsrn);
+			$("#whgotime").val(whgotime);
+			$("#whleavetime").val(whleavetime);
+			$("#whdate").val(whdate);
+			
+			/*
+			document.getElementById('whsrn').value = whsrn;
+			document.getElementById('wfapplystartdate').value = whdate;
+			document.getElementById('wfapplyenddate').value = whdate;
+			document.getElementById('wfapplystarttime').value = whgotime;
+			document.getElementById('wfapplyendtime').value = whleavetime;
+			document.getElementById('userid').value = userid;
 
-							document.getElementById('whsrn').value = whsrn;
-							document.getElementById('wfapplystartdate').value = whdate;
-							document.getElementById('wfapplyenddate').value = whdate;
-							document.getElementById('wfapplystarttime').value = whgotime;
-							document.getElementById('wfapplyendtime').value = whleavetime;
-							document.getElementById('userid').value = userid;
+			*/
 
-						});
+		});
 	});
 
 	//현재 날짜, 시간 1초마다 메서드 호출
@@ -222,7 +246,6 @@
 					"whgotime" : gotimeelement.innerText,
 					"whleavetime" : gotimeelement.innerText,
 					"whdate" : today,
-					"userid" : "dagmm"
 				},
 				/* {'userid':${sessionScope.userid}} */
 				success : function(data) {
@@ -265,9 +288,7 @@
 									type : "POST",
 									data : {
 										"whleavetime" : leavetimeelement.innerText,
-										"userid" : "dagmm"
 									},
-									/* {'userid':${sessionScope.userid}} */
 									success : function(data) {
 										$("#leavetowork").addClass("disabled");
 									},

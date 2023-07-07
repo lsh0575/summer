@@ -92,7 +92,10 @@
 						<label for="wfapplyendtime1">퇴근시간</label> <input type="text"
 							class="form-control" name="wfapplyendtime" id="wfapplyendtime1" value="">
 					</div>
-
+				
+				<input type="hidden" name="whdate" id="whdate1" value="" />
+				<input type="hidden" name="whgotime" id="whgotime1" value="" />
+				<input type="hidden" name="whleavetime" id="whleavetime1" value="" />
 				<input type="hidden" name="wfcsrn" id="wfcsrn1" value="" />
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
@@ -140,6 +143,10 @@
 						<label for="wfapplyendtime2">퇴근시간</label> <input type="text"
 							class="form-control" id="wfapplyendtime2" name="wfapplyendtime" value="" readonly>
 					</div>
+					
+						<input type="hidden" name="whdate" id="whdate1" value="" />
+				<input type="hidden" name="whgotime" id="whgotime1" value="" />
+				<input type="hidden" name="whleavetime" id="whleavetime1" value="" />
 					<input type="hidden" name="wfcsrn" id="wfcsrn2" value="" />
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
@@ -188,6 +195,9 @@
 							class="form-control" name="wfapplyendtime" id="wfapplyendtime3" value="" readonly>
 					</div>
 					
+						<input type="hidden" name="whdate" id="whdate1" value="" />
+				<input type="hidden" name="whgotime" id="whgotime1" value="" />
+				<input type="hidden" name="whleavetime" id="whleavetime1" value="" />
 					<input type="hidden" name="wfcsrn" id="wfcsrn3" value="" />
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
@@ -235,8 +245,11 @@
 						<label for="wfapplyendtime4">퇴근시간</label> <input type="text"
 							class="form-control" name="wfapplyendtime" id="wfapplyendtime4" value="" readonly>
 					</div>
-
-<input type="hidden" name="wfcsrn" id="wfcsrn4" value="" />
+					
+				<input type="hidden" name="whdate" id="whdate1" value="" />
+				<input type="hidden" name="whgotime" id="whgotime1" value="" />
+				<input type="hidden" name="whleavetime" id="whleavetime1" value="" />
+				<input type="hidden" name="wfcsrn" id="wfcsrn4" value="" />
 					<button type="submit" class="btn btn-success btn-block">기안하기</button>
 				</form>
 			</div>
@@ -285,40 +298,39 @@ $(function() {
 	   	      	console.log("test-error");
 	   		} 
 		});
-
 	});
-	
 	
 	$("#wfapplystartdate1").on("change", function() {
 		//console.log(document.getElementById('whdate1').value);
 		//alert("test");
 		var whdate = document.getElementById('wfapplystartdate1').value;
-		var userid = "dagmm";
-		
+		//console.log(whdate);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/work/selectWorkingHour",
 			type : "GET",
 			data : {
-				"whdate" : whdate,
-				"userid" : userid
+				"whdate" : whdate
 			},
 			contentType: "application/json; charset=UTF-8",
 			success : function(json){
-				var whdate1 = json.whdate;
+				//console.log(json);
+				//var whdate1 = json.whdate;
 				var whgotime1 = json.whgotime;
 				var whleavetime1 = json.whleavetime;	
 				//console.log(whdate1);
 				
 				$("#wfapplystarttime1").val(whgotime1);
 				$("#wfapplyendtime1").val(whleavetime1);
-				$("#wfapplyenddate1").val(whdate1);
+				$("#wfapplyenddate1").val(whdate);
 				$("#wfcsrn1").val(4);
 			}, 
 			error: function (json) {
 			      console.log("error");
 			   }
 		});
-	});
+	});	
+	
+
 	
 	$(".usedayoffoneday").on("click", function() {
 		let date = new Date();

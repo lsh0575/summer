@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -134,15 +136,10 @@ public class HeServiceImpl implements HeService{
 
 	@Override
 	public WorkingHour selectWorkingHour(WorkingHour wh) {
-		WorkingHour result = new WorkingHour();
-		result = dao.selectWorkingHour(wh);	
-		// 현재 시간
-        LocalTime now = LocalTime.now();
-        // 포맷 정의하기
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm");
-        // 포맷 적용하기
-        String formatedNow = now.format(format);
-		return result  != null ? result : new WorkingHour(0, formatedNow, formatedNow, "test");
+	  WorkingHour result = new WorkingHour(); 
+	  result = dao.selectWorkingHour(wh);
+
+	return result  != null ? result : new WorkingHour(0, "00:00", "00:00", "test");
 	}
 
 	@Override
@@ -156,12 +153,27 @@ public class HeServiceImpl implements HeService{
 	}
 
 	@Override
-	public int selectdateDiff(Workflow wf) {
-		return dao.selectdateDiff(wf);
+	public Integer selectdateDiff(Workflow wf) {
+		return dao.selectdateDiff(wf)==null?0:dao.selectdateDiff(wf);
 	}
 
 	@Override
 	public int rejectworkflow(Workflow wf) {
 		return dao.rejectworkflow(wf);
+	}
+
+	@Override
+	public List<String> groupId() {
+		return dao.groupId();
+	}
+
+	@Override
+	public int insertWorkFlowLeader(Workflow wf) {
+		return dao.insertWorkFlowLeader(wf);
+	}
+
+	@Override
+	public int selectwfsrn(String para) {
+		return dao.selectwfsrn(para);
 	}
 }

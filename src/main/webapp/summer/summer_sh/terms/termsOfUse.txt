@@ -7,7 +7,7 @@ The DOCL team collects the minimum amount of personal information necessary for 
 
 Personal information items to be collected
 COVID-19 CheckUp Service – when signing up
-Mandatory: Email address, password
+Mandatory: Email address, password 
 COVID-19 CheckUp Service – when using and processing service
 Mandatory: Identified gender or sexual orientation, date of birth, previous/current medical history, smoking status, height, weight, degree of disability, self-quarantine status, COVID-19 testing status(COVID-19 확진 검사 여부), history of close contact with confirmed cases of COVID-19, body temperature and other symptoms
 Method of Collection

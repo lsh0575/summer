@@ -55,7 +55,7 @@ public class WorkController {
 		String firstDateString = firstDate.format(DateTimeFormatter.ISO_DATE);
 
 		// session에서 받아오기
-		para.put("userid", "dagmm");
+		para.put("userid", (String)session.getAttribute("userid"));
 		para.put("whdate1", firstDateString);
 		para.put("whdate2", currentDate);
 
@@ -69,7 +69,7 @@ public class WorkController {
 		WorkingHour wh = new WorkingHour();
 		wh.setWhdate(currentDate);
 		// session에서 받아온 값
-		wh.setUserid("dagmm");
+		wh.setUserid((String)session.getAttribute("userid"));
 
 		String whgotime = service.selectWorkingHour(wh).getWhgotime(); // 17:41
 		String whleavetime = service.selectWorkingHour(wh).getWhleavetime(); // 17:41
@@ -101,7 +101,7 @@ public class WorkController {
 		//그룹장인지 확인
 		model.addAttribute("groupleader", service.groupLeaderId());
 		//아이디는 세션에서 받아온 값
-		if(service.groupLeaderId().contains("gaceo")) {
+		if(service.groupLeaderId().contains((String)session.getAttribute("userid"))) {
 			resultleader = 1;
 		}
 		
@@ -116,18 +116,19 @@ public class WorkController {
 		}
 		model.addAttribute("result", result);
 		model.addAttribute("resultleader", resultleader);
-		return "workinghour";
+		return "summer_he/workinghour";
 	}
 	
 	
 	@GetMapping(value = "/gotimeinsert")
 	@ResponseBody
-	public void gotimeinsert(WorkingHour wh) {
+	public void gotimeinsert(WorkingHour wh, HttpSession session) {
+		wh.setUserid((String)session.getAttribute("userid"));
 		service.whgotimeInsert(wh);
 	}
 
 	@GetMapping(value = "/monthlyWorkingHour")
-	public String monthlyWorkingHour(@RequestParam String userid, @RequestParam String username, Model model) {
+	public String monthlyWorkingHour(@RequestParam String userid, @RequestParam String username, Model model, HttpSession session) {
 		/*
 		 * select * from workinghour where userid=#{userid} and whdate &gt;= #{whdate1}
 		 * and whdate &lt;= #{whdate2} order by whdate;
@@ -137,7 +138,7 @@ public class WorkController {
 		String firstDateString = firstDate.format(DateTimeFormatter.ISO_DATE);
 
 		Map<String, String> para = new HashMap<>();
-		para.put("userid", userid);
+		para.put("userid", (String)session.getAttribute("userid"));
 		// 한달 시작일, 종료일 구하기
 		para.put("whdate1", firstDateString);
 		para.put("whdate2", currentDate);
@@ -145,30 +146,32 @@ public class WorkController {
 		model.addAttribute("name", username);
 		model.addAttribute("list", service.monthlyWorkingHour(para));
 
-		return "groupmonthlyworkinghour";
+		return "summer_he/groupmonthlyworkinghour";
 	}
 
 	@PostMapping(value = "/leavetimeupdate")
 	@ResponseBody
-	public void leavetimeupdate(WorkingHour wh) {
+	public void leavetimeupdate(WorkingHour wh, HttpSession session) {
+		wh.setUserid((String)session.getAttribute("userid"));
 		service.whleavetimeUpdate(wh);
 	}
 
 	@GetMapping(value = "/totaldayoff")
 	public String totaldayoff(String para, HttpSession session, Model model) {
-		para = "dagmm";
+		para = (String)session.getAttribute("userid");
 		// para = session.getAttribute("userid");
+		log.info(service.totalDayOff(para));
 		model.addAttribute("totaldayoff", service.totalDayOff(para));
 		model.addAttribute("usedayoff", service.useDayOffSum(para));
 		// model.addAttribute("datediff", service.dateDiff(para));
 		model.addAttribute("list", service.selectWfapplyDate(para));
 		// model.addAttribute("usedayoffdate", service.useDayOffDate(para));
-		return "dayoff";
+		return "summer_he/dayoff";
 	}
 
 	@GetMapping(value = "/workflow")
 	public String workflow(String para, Model model, HttpSession session) {
-		para = "gaceo";
+		para = (String)session.getAttribute("userid");
 		int result = 0;
 		
 		if(service.groupLeaderId().contains(para)) {
@@ -177,14 +180,14 @@ public class WorkController {
 
 		model.addAttribute("list", service.listWorkflow(para));
 		model.addAttribute("result", result);
-		return "workflow";
+		return "summer_he/workflow";
 	}
 
 	@GetMapping(value = "/workflowdraft")
 	public String workflowdraft(String para, Model model, HttpSession session) {
-		para = "dagmm";
+		para = (String)session.getAttribute("userid");
 		model.addAttribute("list", service.listWorkflow(para));
-		return "workflowdraft";
+		return "summer_he/workflowdraft";
 	}
 
 	@GetMapping(value = "/deleteworkflow")
@@ -202,8 +205,8 @@ public class WorkController {
 	}
 
 	@GetMapping(value = "/groupWorkingHour")
-	public String groupWorkingHour(Model model, Map<String, String> para) {
-		String para2 = "gaceo";
+	public String groupWorkingHour(Model model, Map<String, String> para, HttpSession session) {
+		String para2 = (String)session.getAttribute("userid");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String currentDate = sdf.format(new Date());
 
@@ -212,7 +215,7 @@ public class WorkController {
 		model.addAttribute("groupname", service.groupname(para2));
 		model.addAttribute("selectname", service.selectName(para2));
 		model.addAttribute("list", service.groupWorkingHour(para));	
-		return "workingcheck";
+		return "summer_he/workingcheck";
 	}
 
 	@GetMapping(value = "/workflowcategoryview")
@@ -223,42 +226,94 @@ public class WorkController {
 
 	@GetMapping(value = "/selectWorkingHour")
 	@ResponseBody
-	public WorkingHour selectWorkingHour(@RequestParam String whdate, @RequestParam String userid) {
+	public WorkingHour selectWorkingHour(@RequestParam String whdate, HttpSession session) {
 		WorkingHour wh = new WorkingHour();
 		wh.setWhdate(whdate);
-		wh.setUserid(userid);
+		log.info((String)session.getAttribute("userid"));
+		wh.setUserid((String)session.getAttribute("userid"));
 		return service.selectWorkingHour(wh);
 	}
 
 	@Transactional
 	@PostMapping(value = "/insertWorkFlow")
-	public void insertWorkFlow(Workflow wf, HttpServletResponse response, HttpServletRequest request, Model model)
+	public void insertWorkFlow(Workflow wf, @RequestParam String whdate, @RequestParam String whgotime, @RequestParam String whleavetime, HttpServletResponse response, HttpServletRequest request, Model model, HttpSession session)
 			throws IOException {
+		
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		// session에서 받아오기
-		String userid = "dagmm";
+		String userid = (String)session.getAttribute("userid");
+		Map<String, String> para = new HashMap<>();
+		
 		wf.setUserid(userid);
 
-		// 전자결재 테이블 insert
-		if (service.insertWorkFlow(wf) > 0) {
-			out.println("<script>alert('기안이 완료되었습니다.'); location.href='" + request.getContextPath()
-					+ "/work/workflowdraft'</script>");
-		} else {
-			out.println("<script>alert('관리자에게 문의바랍니다.'); javascript:history.go(-1);</script>");
-		}
+		WorkingHour wh = new WorkingHour();
+		wh.setWhgotime(wf.getWfapplystarttime());
+		wh.setWhleavetime(wf.getWfapplyendtime());
+		wh.setUserid(wf.getUserid());
+		wh.setWhdate(wf.getWfapplystartdate());
+		 
+		boolean groupleaderresult = service.groupLeaderId().contains(userid);
+		int categorynumber        = -1;	
+		int insertworkflowgroupleader = -1;
+		int insertworkflow = -1;
+
+		/*
+		 * if(groupleaderresult) {//그룹장일 경우 insertworkflowgroupleader =
+		 * service.insertWorkFlowLeader(wf); } else {//그룹장이 아닐 경우 insertworkflow =
+		 * service.insertWorkFlow(wf); }
+		 */	
+		//그룹장일 경우, 자기전결로 승인
+		if(service.groupLeaderId().contains(userid)) {
+			//전자결재 승인 상태로 들어감.
+			if(service.insertWorkFlowLeader(wf) > 0) {
+				// 휴가일 경우, 휴가 테이블에 넣기
+				if(wf.getWfcsrn() != 4){
+					/////////////////selectdatediff null로 가져옴
+					if (service.selectdateDiff(wf) != 0) {
+						for (int i = 0; i < service.selectdateDiff(wf) + 1; i++) {
+							service.insertDayOff(wf);
+						}
+					} else {
+						service.insertDayOff(wf);
+					}
+				//출퇴근일 경우, 원래 이력 넣어주고, 출퇴근 테이블 업데이트
+				} else if(wf.getWfcsrn() == 4) {
+					para.put("userid", userid);
+					para.put("whdate",  whdate);
+					
+					//////////////////////////////insert랑 업데이트가 안됐음.
+					service.insertOriginWH(para);
+					service.editWorkingHour(wh);
+				}
+				out.println("<script>alert('그룹장일 경우, 본인전결로 기안이 승인됩니다.'); location.href='" + request.getContextPath()
+				+ "/work/workflowdraft'</script>");
+			} else {
+				out.println("<script>alert('관리자에게 문의바랍니다.'); javascript:history.go(-1);</script>");
+			}
+			// 그룹원일 경우,
+		} else if(service.groupId().contains(userid)) {
+				if (service.insertWorkFlow(wf) > 0) {
+					out.println("<script>alert('기안이 완료되었습니다.'); location.href='" + request.getContextPath()
+							+ "/work/workflowdraft'</script>");
+				} else {
+					out.println("<script>alert('관리자에게 문의바랍니다.'); javascript:history.go(-1);</script>");
+				}
+			//그룹장도 그룹원도 아닐 경우,
+			} else {
+				out.println("<script>alert('그룹에 속해있지 않아 기안이 불가합니다.'); javascript:history.go(-1);</script>");
+			}
+		
 	}
 
 	@GetMapping(value = "/groupWorkflow")
-	public String groupWorkflow(Model model) {
+	public String groupWorkflow(Model model, HttpSession session) {
 		// session에서 받아오기
-		String userid = "gaceo";
-		
+		String userid = (String)session.getAttribute("userid");
 		
 		model.addAttribute("list", service.groupWorkflow(userid));
 
-		return "groupworkflow";
+		return "summer_he/groupworkflow";
 	}
 
 	@GetMapping(value = "/detailWorkflow")
@@ -284,9 +339,10 @@ public class WorkController {
 		wh.setUserid(wf.getUserid());
 		wh.setWhdate(wf.getWfapplystartdate());
 
-		Map<String, String> para = new HashMap<>();
+		Map<String, Object> para = new HashMap<>();
 		para.put("userid", wf.getUserid());
-		para.put("wfsrn", String.valueOf(wf.getWfsrn()));
+		//수정하고, whdate보내줘야함 전 단계에서
+		para.put("whdate", wf.getWfsrn());
 
 		// 승인 버튼 누르면
 		if (check.equals("OK")) {
@@ -294,7 +350,7 @@ public class WorkController {
 			if (service.acceptworkflow(wf) > 0) {
 				// 출퇴근수정 카테고리일경우, workinghour 업데이트 + 원래 이력 넣기
 				if (wf.getWfcsrn() == 4) {
-					service.insertOriginWH(para);
+					//service.insertOriginWH(para);
 					service.editWorkingHour(wh);
 					// 휴가신청일 경우, 종료일-시작일 0이 아닐 경우 신청일수만큼 dayoff에 insert
 				} else if(wf.getWfcsrn() != 4){
@@ -323,3 +379,20 @@ public class WorkController {
 		}
 	}
 }
+/*
+//1. id가 그룹장인지 그룹원인지 판별, workflow 카테고리 넘버 판별
+		
+		//2. 그룹장일 경우
+		//2-1. insert workflow 상태가 승인으로 들어감.
+		
+		//2-2. workflow 카테고리 넘버 판별
+		//2-3. 카테고리 넘버가 4일 경우, insert originworkinghour, workinghour update
+		//2-4. 카테고리 넘버가 4가 아닐 경우, 전자결재 적용 시작일, 종료일 가지고와서 종료일-시작일 그 수만큼 휴가테이블에 insert
+		
+		//3. 그룹장이 아닐 경우
+		//2-1. insert workflow 상태가 default로 들어감.
+		
+		//2-2. workflow 카테고리 넘버 판별
+		//2-3. 카테고리 넘버가 4일 경우, insert originworkinghour, workinghour update
+		//2-4. 카테고리 넘버가 4가 아닐 경우, 전자결재 적용 시작일, 종료일 가지고와서 종료일-시작일 그 수만큼 휴가테이블에 insert
+*/

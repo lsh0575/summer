@@ -207,13 +207,18 @@ div#date {
 /*혜은 */
 
 /*성현*/
-.weatherTitle 		 { background-color: black; padding: 30px; color: #fff; height: 220px; width: 500px; }
-.weather_icon 		 { margin: 0; padding: 0; width: 380px; text-align: right; }
-/* .form-group			 { align-content: center; } */
-.weatherContent 	 { float: right; margin: -5px 0px 0px 60px; font-size: 6pt }
-.current_temp 		 { font-size: 25pt }
-.weather_description { font-size: 10pt }
-.city 				 { font-size: 7pt }
-.weatherInfo 		 { float: right; margin-top: -18px; }
+.weatherTitle       		 { background-color: black; padding: 30px; color: #fff; height: 220px; width: 500px; }
+.weather_icon       		 { margin: 0; padding: 0; width: 380px; text-align: right; }
+.weatherContent    			 { float: right; margin: -5px 0px 0px 60px; font-size: 6px }
+.current_temp        		 { font-size: 25px }
+.weather_description 		 { font-size: 10px }
+.city              			 { font-size: 7px }
+.weatherInfo        		 { float: right; margin-top: -18px; }
+
+.glyphicon 			 		 { font-size:50px; }
+.row.myPageBtn 	  	 		 { margin-top: 3%; margin-bottom: 3%; }
+.row.groupDetailBtn  		 { margin-bottom: 5%; }
+.row.beforeLoginBtn 		 { margin-bottom: 2%; }
+.sh_blogin   .loginBtn 		 { height: 80px; }
 
 /*성현*/

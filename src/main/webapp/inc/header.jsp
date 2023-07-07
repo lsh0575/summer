@@ -35,14 +35,14 @@
 			<h2 class="myhidden">주메뉴</h2>
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand logodesign" href="#">SUMMER</a>
+					<a class="navbar-brand logodesign" href="${pageContext.request.contextPath}/account/afterLoginMain">SUMMER</a>
 				</div>
 				<ul class="nav navbar-nav">
 					<li><a href="#">프로젝트</a></li>
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#">근무관리 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">출/퇴근 관리</a></li>
+							<li><a href="${pageContext.request.contextPath}/work/workinghour">출/퇴근 관리</a></li>
 							<li><a href="${pageContext.request.contextPath}/work/totaldayoff">연차 관리</a></li>
 						</ul></li>
 					<li><a href="${pageContext.request.contextPath}/work/workflow">전자결재</a></li>
@@ -56,8 +56,8 @@
 						data-toggle="dropdown" href="#">회원이름 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">알림</a></li>
-							<li><a href="#">회원정보 수정</a></li>
-							<li><a href="#">로그아웃</a></li>
+						         <li><a href="${pageContext.request.contextPath}/account/mmdRead">회원정보 수정</a></li>
+	          <li><a href="${pageContext.request.contextPath}/account/logout">로그아웃</a></li>
 						</ul></li>
 				</ul>
 

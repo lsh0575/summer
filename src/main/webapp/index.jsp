@@ -19,6 +19,7 @@
 </head>
 <body>
 		<script>
+		/* 혜은 */
 		//근태관리
 		//location.href="work/workinghour"; 
 		
@@ -26,10 +27,14 @@
 		//location.href="work/totaldayoff";
 		
 		//전자결재
-		location.href="work/workflow";
+		//location.href="work/workflow";
 		
 		//그룹원-전자결재확인
 		//location.href="work/groupWorkflow";
+		/* 혜은 */
+		
+		/* 메인 */
+		location.href="${pageContext.request.contextPath}/account/uBefore";
 		</script>
 </body>
 </html>
