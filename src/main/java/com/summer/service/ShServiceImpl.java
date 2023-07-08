@@ -147,7 +147,7 @@ public class ShServiceImpl implements ShService {
 		String user_email = "ilovebcc20@gmail.com";
 
 		// 관리자 구글 2차 인증 패스워드
-		String user_pw = "abousfmvynbnzvfw";
+		String user_pw = "#####2차 비밀번호 입력######";
 
 		int smtp_port = 465; // TLS : 587, SSL : 465
 
